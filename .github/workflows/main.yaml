@@ -37,4 +37,4 @@ jobs:
 
       - name: Deploy application
         run: |
-          ssh -i $HOME/.ssh/id_ed25519 192.168.0.12:8080 "docker stack deploy --compose-file docker-compose.yml myapp"
+          ssh -i $HOME/.ssh/id_ed25519 192.168.0.12 "docker stack deploy --compose-file docker-compose.yml myapp"
