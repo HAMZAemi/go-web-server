@@ -16,9 +16,9 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p $HOME/.ssh
-          echo $SSH_PUBLIC_KEY >> $HOME/.ssh/authorized_keys
+          echo $SSH_PUBLIC_KEY >> $HOME/.ssh/id_ed25519
           chmod 700 $HOME/.ssh
-          chmod 600 $HOME/.ssh/authorized_keys
+          chmod 700 $HOME/.ssh/id_ed25519
 
       - name: Docker login
         env:
