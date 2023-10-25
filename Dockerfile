@@ -1,11 +1,8 @@
-FROM golang:1.17.7-alpine3.15 as dev
+# Use a lightweight Nginx image
+FROM nginx:alpine
 
-WORKDIR $GOPATH/src
+# Copy the HTML file into the Nginx server directory
+COPY index.html /usr/share/nginx/html
 
-COPY . .
-
-EXPOSE 8080
-
-RUN go build
-
-CMD ["./go-web-server"]
+# Expose port 80 for web traffic
+EXPOSE 80
