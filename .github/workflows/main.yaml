@@ -18,7 +18,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -t rsa <DOCKER_SWARM_MANAGER_IP> >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa 192.168.0.12 >> ~/.ssh/known_hosts
       
       - name: Docker login
         env:
