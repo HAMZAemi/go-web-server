@@ -37,8 +37,8 @@ jobs:
 
       - name: Verify SSH host
         run: |
-          ssh-keyscan -H ip172-18-0-53-cksntcmfml8g00chl410@direct.labs.play-with-docker.com >> $HOME/.ssh/known_hosts
+          ssh-keyscan -H 192.168.0.12 >> $HOME/.ssh/known_hosts
 
       - name: Deploy application
         run: |
-          ssh ip172-18-0-53-cksntcmfml8g00chl410@direct.labs.play-with-docker.com "docker stack deploy --compose-file docker-compose.yml myapp"
+          ssh 192.168.0.12 "docker stack deploy --compose-file docker-compose.yml myapp"
