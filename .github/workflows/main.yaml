@@ -10,12 +10,12 @@ jobs:
     - name: docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}   
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASS }}  
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: docker build go web server
       run: |
-        docker build . -t jammutkarsh/go-web-server
+        docker build . -t emihamza/go-web-server
     - name: docker push
       run: |
-        docker push jammutkarsh/go-web-server
+        docker push emihamza/go-web-server
