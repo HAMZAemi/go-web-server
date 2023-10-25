@@ -13,6 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up SSH key
+        run: |
+          mkdir -p $HOME/.ssh
+          echo $SSH_PUBLIC_KEY >> $HOME/.ssh/authorized_keys
+          chmod 700 $HOME/.ssh
+          chmod 600 $HOME/.ssh/authorized_keys
+
       - name: Docker login
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -30,5 +37,4 @@ jobs:
 
       - name: Deploy application
         run: |
-          echo "$SSH_PUBLIC_KEY" >> $HOME/.ssh/authorized_keys
           ssh -i $HOME/.ssh/id_ed25519 192.168.0.12 "docker stack deploy --compose-file docker-compose.yml myapp"
