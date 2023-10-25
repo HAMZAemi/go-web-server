@@ -12,29 +12,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
+
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -t rsa 192.168.0.12 >> ~/.ssh/known_hosts
-      
+
       - name: Docker login
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      
+
       - name: Build Docker image
         run: |
           docker build -t emihamza/go-web-server .
-      
+
       - name: Push Docker image
         run: |
           docker push emihamza/go-web-server
-      
+
       - name: Deploy application
         run: |
           ssh -i ~/.ssh/id_ed25519 192.168.0.12 "docker stack deploy --compose-file docker-compose.yml myapp"
