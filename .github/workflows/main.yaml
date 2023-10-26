@@ -13,14 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+ 
       - name: Generate SSH Key
         run: |
           ssh-keygen -t ed25519 -P "" -f ~/.ssh/id_ed25519
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519.pub
           chmod 700 ~/.ssh
           chmod 600 ~/.ssh/id_ed25519
-  
+          chmod 600 ~/.ssh/id_ed25519.pub
         env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
       
       - name: Docker login
         env:
