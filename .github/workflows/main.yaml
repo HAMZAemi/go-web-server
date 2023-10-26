@@ -1,4 +1,4 @@
-name: Your Workflow Name
+name: CI for Docker Hub
 
 on:
   push:
@@ -6,20 +6,46 @@ on:
       - main
 
 jobs:
-  your-job-name:
+  build:
     runs-on: ubuntu-latest
-    
-    steps:
-      - name: Generate and Use SSH Key
-        env:
-          SSH_PUBLIC_KEY_PATH: ./id_ed25519.pub
-          SSH_PRIVATE_KEY_PATH: ./id_ed25519
-        run: |
-          # Check if the private key already exists
-          if [ ! -f $SSH_PRIVATE_KEY_PATH ]; then
-            ssh-keygen -t ed25519 -N "" -f $SSH_PRIVATE_KEY_PATH
-          fi
 
-          # Display the public key
-          cat $SSH_PUBLIC_KEY_PATH
-          cat $SSH_PRIVATE_KEY_PATH
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Generate SSH Key
+        run: |
+          ssh-keygen -t ed25519 -P "" -f ~/.ssh/id_ed25519
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PUBLIC_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        # Make sure to add the generated SSH keys as secrets in your GitHub repository.
+
+      - name: Add SSH Key to SSH Agent
+        run: |
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-add ~/.ssh/id_ed25519
+
+      - name: Docker login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      - name: Build Docker image
+        run: |
+          docker build -t emihamza/go-web-server .
+
+      - name: Push Docker image
+        run: |
+          docker push emihamza/go-web-server
+
+      - name: Verify SSH host
+        run: |
+          ssh-keyscan -H 192.168.0.8 >> $HOME/.ssh/known_hosts
+
+      - name: Deploy application
+        run: |
+          ssh -i ~/.ssh/id_ed25519 root@192.168.0.8 "docker stack deploy --compose-file docker-compose.yml myapp"
