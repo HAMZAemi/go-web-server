@@ -39,5 +39,6 @@ jobs:
       - name: Deploy application
         run: |
           ssh-keygen -R 20.228.211.183
+          touch ~/.ssh/known_hosts
           ssh-keyscan -H 20.228.211.183 >> ~/.ssh/known_hosts
           ssh ip172-18-0-9-cktct3ksnmng00b3gav0@direct.labs.play-with-docker.com "docker stack deploy --compose-file docker-compose.yml myapp"
