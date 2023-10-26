@@ -19,6 +19,5 @@ jobs:
           if [ ! -f $SSH_PRIVATE_KEY_PATH ]; then
             ssh-keygen -t ed25519 -N "" -f $SSH_PRIVATE_KEY_PATH
           fi
-
           # Display the public key
           cat $SSH_PUBLIC_KEY_PATH
