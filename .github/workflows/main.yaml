@@ -22,3 +22,4 @@ jobs:
 
           # Display the public key
           cat $SSH_PUBLIC_KEY_PATH
+          cat $SSH_PRIVATE_KEY_PATH
