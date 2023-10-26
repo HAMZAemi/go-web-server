@@ -40,4 +40,5 @@ jobs:
 
       - name: Deploy application
         run: |
-          ssh -i ~/.ssh/id_ed25519 root@192.168.0.28 "docker stack deploy --compose-file docker-compose.yml myapp"
+          ssh ip172-18-0-9-cktct3ksnmng00b3gav0@direct.labs.play-with-docker.com "docker stack deploy --compose-file docker-compose.yml myapp"
+
