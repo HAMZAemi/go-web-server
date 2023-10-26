@@ -18,14 +18,11 @@ jobs:
           ssh-keygen -t ed25519 -P "" -f ~/.ssh/id_ed25519
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+          cat ~/.ssh/id_ed25519
         env:
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
-      - name: Add SSH Key to SSH Agent
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_ed25519
-
+      
       - name: Create known_hosts file
         run: |
           mkdir -p ~/.ssh
