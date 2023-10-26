@@ -23,9 +23,9 @@ jobs:
 
       - name: Add SSH Key to SSH Agent
         run: |
-          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
+          echo $SSH_PRIVATE_KEY | tr -d '\r' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          eval "$(ssh-agent -s)"
+          eval $(ssh-agent -s)
           ssh-add ~/.ssh/id_ed25519
 
       - name: Docker login
