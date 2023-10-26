@@ -25,7 +25,7 @@ jobs:
       
       - name: Create known_hosts file
         run: |
-          ssh-keyscan -H 192.168.0.8 >> ~/.ssh/known_hosts
+          ssh-keyscan -H 192.168.0.28 >> ~/.ssh/known_hosts
 
       - name: Docker login
         env:
@@ -44,4 +44,4 @@ jobs:
 
       - name: Deploy application
         run: |
-          ssh -i ~/.ssh/id_ed25519 root@192.168.0.8 "docker stack deploy --compose-file docker-compose.yml myapp"
+          ssh -i ~/.ssh/id_ed25519 root@192.168.0.28 "docker stack deploy --compose-file docker-compose.yml myapp"
