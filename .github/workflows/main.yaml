@@ -53,5 +53,13 @@ jobs:
    
       - name: List files in ~/.ssh directory
         run: ls -la ~/.ssh
-      - name: SSH to the server
-        run: ssh -tt ip172-18-0-49-cktct3ksnmng00b3gav0@direct.labs.play-with-docker.com
+      - name: Deploy to swarm
+        uses: sagebind/docker-swarm-deploy-action@v2
+        with:
+          remote_host: ssh://ip172-18-0-49-cktct3ksnmng00b3gav0@direct.labs.play-with-docker.com
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.DEPLOY_SSH_KEY }}
+          args: docker stack deploy --compose-file docker-compose.yml myapp
+
+        
+      
