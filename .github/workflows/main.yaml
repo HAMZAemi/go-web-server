@@ -25,7 +25,6 @@ jobs:
       
       - name: Create known_hosts file
         run: |
-          mkdir -p ~/.ssh
           ssh-keyscan -H 192.168.0.8 >> ~/.ssh/known_hosts
 
       - name: Docker login
