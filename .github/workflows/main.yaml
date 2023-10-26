@@ -13,7 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
- 
       - name: Generate SSH Key
         run: |
           ssh-keygen -t ed25519 -P "" -f ~/.ssh/id_ed25519
@@ -26,7 +25,6 @@ jobs:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      
       - name: Docker login
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -44,22 +42,22 @@ jobs:
 
       - name: Create SSH directory
         run: mkdir -p ~/.ssh
+
       - name: Create known_hosts file
         run: touch ~/.ssh/known_hosts
-      - name: Add host key to known_hosts
-        run: 
+
+      - name: Add host keys to known_hosts
+        run: |
           ssh-keyscan -H 20.228.211.183 >> ~/.ssh/known_hosts
-          ssh-keyscan direct.labs.play-with-docker.com >> $HOME/.ssh/known_hosts
-   
+          ssh-keyscan direct.labs.play-with-docker.com >> ~/.ssh/known_hosts
+
       - name: List files in ~/.ssh directory
         run: ls -la ~/.ssh
-      - name: Deploy to swarm
+
+      - name: Deploy to Swarm
         uses: sagebind/docker-swarm-deploy-action@v2
         with:
           remote_host: ssh://ip172-18-0-49-cktct3ksnmng00b3gav0@direct.labs.play-with-docker.com
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh_public_key: ${{ secrets.DEPLOY_SSH_KEY }}
-          args: docker stack deploy --compose-file docker-compose.yml myapp
-
-        
-      
+          args: stack deploy --compose-file docker-compose.yml myapp
