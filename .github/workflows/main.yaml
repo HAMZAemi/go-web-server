@@ -47,7 +47,10 @@ jobs:
       - name: Create known_hosts file
         run: touch ~/.ssh/known_hosts
       - name: Add host key to known_hosts
-        run: ssh-keyscan -H 20.228.211.183 >> ~/.ssh/known_hosts
+        run: 
+          ssh-keyscan -H 20.228.211.183 >> ~/.ssh/known_hosts
+          ssh-keyscan direct.labs.play-with-docker.com >> $HOME/.ssh/known_hosts
+   
       - name: List files in ~/.ssh directory
         run: ls -la ~/.ssh
       - name: SSH to the server
