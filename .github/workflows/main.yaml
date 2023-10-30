@@ -46,14 +46,7 @@ jobs:
       - name: Create known_hosts file
         run: touch ~/.ssh/known_hosts
 
-      - name: Add host keys to known_hosts
-        run: |
-          ssh-keyscan -H 20.228.211.183 >> ~/.ssh/known_hosts
-          ssh-keyscan direct.labs.play-with-docker.com >> ~/.ssh/known_hosts
-
-      - name: List files in ~/.ssh directory
-        run: ls -la ~/.ssh
-
+ 
       - name: Deploy to Swarm
         uses: sagebind/docker-swarm-deploy-action@v2
         with:
