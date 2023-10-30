@@ -21,11 +21,9 @@ jobs:
           chmod 700 ~/.ssh
           chmod 600 ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519.pub
-          
-        
           env:
-          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_NAME}}
+            DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_NAME}}
 
       - name: Docker login
         env:
