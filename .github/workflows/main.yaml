@@ -57,7 +57,7 @@ jobs:
       - name: Deploy to Swarm
         uses: sagebind/docker-swarm-deploy-action@v2
         with:
-          remote_host: ssh://ip172-18-0-9-cktct3ksnmng00b3gav0@direct.labs.play-with-docker.com
+          remote_host: ssh://ip172-18-0-10-cl002qmfml8g00e2656g@direct.labs.play-with-docker.com
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh_public_key: ${{ secrets.DEPLOY_SSH_KEY }}
-          args: stack deploy --compose-file docker-compose.yml myapp
+          args: docker run -d -p 80:80 emihamza/go-web-server
