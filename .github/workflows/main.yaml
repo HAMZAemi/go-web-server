@@ -53,4 +53,5 @@ jobs:
           remote_host: ssh://ip172-18-0-10-cl002qmfml8g00e2656g@direct.labs.play-with-docker.com
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY_NAME }}
           ssh_public_key: ${{ secrets.DEPLOY_SSH_KEY }}
-          args: docker run -d -p 80:80 emihamza/go-web-server
+          deployment_mode: docker-swarm
+          args:  emihamza/go-web-server
