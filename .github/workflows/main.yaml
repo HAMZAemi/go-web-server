@@ -11,22 +11,22 @@ jobs:
 
     steps:
       - name: Generate SSH Keys
+        id: generate_ssh_keys
         run: |
           ssh-keygen -t ed25519 -P "" -f id_ed25519
-          id_ed25519_contents=$(cat id_ed25519)
-          id_ed25519_pub_contents=$(cat id_ed25519.pub)
-          echo "::set-output name=SSH_PRIVATE_KEY::$id_ed25519_contents"
-          echo "::set-output name=SSH_PUBLIC_KEY::$id_ed25519_pub_contents"
+        id_ed25519_contents=$(cat id_ed25519)
+        id_ed25519_pub_contents=$(cat id_ed25519.pub)
+        echo "::set-output name=SSH_PRIVATE_KEY_CONTENT::$id_ed25519_contents"
+        echo "::set-output name=SSH_PUBLIC_KEY_CONTENT::$id_ed25519_pub_contents"
 
       - name: Store SSH Keys in Secrets
         run: |
-          echo "${{ steps.Generate SSH Keys.outputs.SSH_PRIVATE_KEY }}" > /tmp/ssh_private_key
-          echo "${{ steps.Generate SSH Keys.outputs.SSH_PUBLIC_KEY }}" > /tmp/ssh_public_key
+          echo "${{ steps.generate_ssh_keys.outputs.SSH_PRIVATE_KEY_CONTENT }}" > /tmp/ssh_private_key
+          echo "${{ steps.generate_ssh_keys.outputs.SSH_PUBLIC_KEY_CONTENT }}" > /tmp/ssh_public_key
           echo "Storing SSH Private Key in Secret"
-          echo "${{ steps.Generate SSH Keys.outputs.SSH_PRIVATE_KEY }}" | gh secret set SSH_PRIVATE_KEY --body -
+          echo "${{ steps.generate_ssh_keys.outputs.SSH_PRIVATE_KEY_CONTENT }}" | gh secret set SSH_PRIVATE_KEY --body -
           echo "Storing SSH Public Key in Secret"
-          echo "${{ steps.Generate SSH Keys.outputs.SSH_PUBLIC_KEY }}" | gh secret set SSH_PUBLIC_KEY --body -
-
+          echo "${{ steps.generate_ssh_keys.outputs.SSH_PUBLIC_KEY_CONTENT }}" | gh secret set SSH_PUBLIC_KEY --body -
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
